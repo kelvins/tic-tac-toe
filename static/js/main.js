@@ -70,7 +70,7 @@ function robotEasy() {
 		var found = false;
 
 		// Try a random position
-		for (var index = 0; index < 5; index++) {
+		for (var index = 0; index < 10; index++) {
 			var r = randomInt(0,2);
 			var c = randomInt(0,2);
 			if (positions[r][c] == 0) {
