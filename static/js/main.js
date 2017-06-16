@@ -116,27 +116,35 @@ function robotEasy() {
 // Return 0 if there was a draw. Return -1 if the game has not finished.
 function getTheWinner() {
 	if (positions[0][0] != 0 && positions[0][0] == positions[0][1] && positions[0][1] == positions[0][2]) { // First row
+		applyOpacity(0,0,0,1,0,2);
 		return positions[0][0];
 	} 
 	if (positions[0][0] != 0 && positions[0][0] == positions[1][0] && positions[1][0] == positions[2][0]) { // First column
+		applyOpacity(0,0,1,0,2,0);
 		return positions[0][0];
 	} 
 	if (positions[0][0] != 0 && positions[0][0] == positions[1][1] && positions[1][1] == positions[2][2]) { // Main diagonal
+		applyOpacity(0,0,1,1,2,2);
 		return positions[0][0];
 	} 
 	if (positions[2][0] != 0 && positions[2][0] == positions[2][1] && positions[2][1] == positions[2][2]) { // Last row
+		applyOpacity(2,0,2,1,2,2);
 		return positions[2][0];
 	} 
 	if (positions[0][2] != 0 && positions[0][2] == positions[1][2] && positions[1][2] == positions[2][2]) { // Last column
+		applyOpacity(0,2,1,2,2,2);
 		return positions[0][2];
 	} 
 	if (positions[1][0] != 0 && positions[1][0] == positions[1][1] && positions[1][1] == positions[1][2]) { // Middle row
+		applyOpacity(1,0,1,1,1,2);
 		return positions[1][0];
 	} 
 	if (positions[2][0] != 0 && positions[2][0] == positions[1][1] && positions[1][1] == positions[0][2]) { // Second diagonal
+		applyOpacity(2,0,1,1,0,2);
 		return positions[2][0];
 	} 
 	if (positions[0][1] != 0 && positions[0][1] == positions[1][1] && positions[1][1] == positions[2][1]) { // Middle column
+		applyOpacity(0,1,1,1,2,1);
 		return positions[0][1];
 	}
 
@@ -149,6 +157,19 @@ function getTheWinner() {
 	}
 	
 	return 0;
+}
+
+function applyOpacity(row1, col1, row2, col2, row3, col3) {
+	for (var row = 0; row < board.rows.length; row++) {
+		for (var col = 0; col < board.rows[row].cells.length; col++) {
+			board.rows[row].cells[col].style.opacity = 0.5;
+			if ((row == row1 && col == col1) ||
+				(row == row2 && col == col2) ||
+				(row == row3 && col == col3)) {
+				board.rows[row].cells[col].style.opacity = 1.0;
+			}
+		}
+	}
 }
 
 // Show the winner message
@@ -177,6 +198,7 @@ function reset() {
 	for (var row = 0; row < board.rows.length; row++) {
 		for (var col = 0; col < board.rows[row].cells.length; col++) {
 			board.rows[row].cells[col].style.backgroundImage = '';
+			board.rows[row].cells[col].style.opacity = 1.0;
 		}
 	}
 
