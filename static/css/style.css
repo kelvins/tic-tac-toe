@@ -10,7 +10,8 @@ th, td {
 	text-align: center;
 	cursor: pointer;
 	font-size: 0;
-	border: 1px solid #ddd;
+	border: 1px solid #aab9ff;
+	border-radius: 5px;
 }
 
 h1 {
@@ -23,18 +24,28 @@ h1 {
 	background: -o-linear-gradient(blue, purple); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(blue, purple); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(blue, purple); /* Standard syntax */
+	border-radius: 5px;
 }
 
-#winnerMessageBox {
+.hiddenMessages {
 	background: blue; /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(blue, purple); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(blue, purple); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(blue, purple); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(blue, purple); /* Standard syntax */
 	color: white;
+	border: 0px solid white;
 	border-radius: 5px;
 	margin: 10px;
 	padding: 10px;
-	width: 300px;
 	display: none;
+}
+
+#winnerMessageBox {
+	width: 300px;
+}
+
+#playAgainButton {
+	cursor: pointer;
+	min-width: 300px;
 }

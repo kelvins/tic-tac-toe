@@ -12,12 +12,15 @@ var gameFinished = false;
 const nPlayer1 = 1;
 const nPlayer2 = 2;
 
+var startingPlayer = nPlayer1;
+
 // The path for the image for the players
 const imgPlayer1 = 'url("static/img/p1.png")';
 const imgPlayer2 = 'url("static/img/p2.png")';
 
 var board = document.getElementById("board");
 var winnerMessageBox = document.getElementById("winnerMessageBox");
+var playAgainButton = document.getElementById("playAgainButton");
 
 // Register the onClick function for each cell in the table (board)
 for (var row = 0; row < board.rows.length; row++) {
@@ -159,7 +162,7 @@ function showWinner(winnerNumber) {
 		winnerMessageBox.innerHTML = "DRAW!";
 	}
 	winnerMessageBox.style.display = 'block';
-	//reset();
+	playAgainButton.style.display  = 'block';
 }
 
 // Reset the game
@@ -180,6 +183,14 @@ function reset() {
 	// Remove the winner message box
 	winnerMessageBox.innerHTML = "";
 	winnerMessageBox.style.display = 'none';
+	playAgainButton.style.display  = 'none';
 
 	gameFinished = false;
+
+	if (startingPlayer == nPlayer1) {
+		startingPlayer = nPlayer2;
+		robotEasy();
+	} else {
+		startingPlayer = nPlayer1;
+	}
 }
