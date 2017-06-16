@@ -6,6 +6,8 @@ var positions = [
 	[0, 0, 0]
 ];
 
+var gameFinished = false;
+
 // The number to be used for the players
 const nPlayer1 = 1;
 const nPlayer2 = 2;
@@ -14,11 +16,13 @@ const nPlayer2 = 2;
 const imgPlayer1 = 'url("static/img/p1.png")';
 const imgPlayer2 = 'url("static/img/p2.png")';
 
+var board = document.getElementById("board");
+var winnerMessageBox = document.getElementById("winnerMessageBox");
+
 // Register the onClick function for each cell in the table (board)
-var table = document.getElementById("board");
-for (var row = 0; row < table.rows.length; row++) {
-	for (var col = 0; col < table.rows[row].cells.length; col++) {
-		table.rows[row].cells[col].onclick = function () {
+for (var row = 0; row < board.rows.length; row++) {
+	for (var col = 0; col < board.rows[row].cells.length; col++) {
+		board.rows[row].cells[col].onclick = function () {
 			onCellClicked(this);
 		};
 	}
@@ -26,24 +30,26 @@ for (var row = 0; row < table.rows.length; row++) {
 
 // Function called when the user clicks on a cell in the table
 function onCellClicked(tableCell) {
-	// Get the cell content and split it
-	var content = tableCell.innerHTML.split(",");
-	// Get the row and column numbers
-	var row = content[0]
-	var col = content[1]
-	// If the position is still valid
-	if (positions[row][col] == 0) {
-		// Set the image
-		tableCell.style.backgroundImage = imgPlayer1;
-		// Register the selected position
-		positions[row][col] = nPlayer1
-		// Get the number of the winner
-		var winnerNumber = getTheWinner();
-		// If there is a winner show the winner message
-		if( winnerNumber != -1 ) {
-			showWinner(winnerNumber);
-		} else {
-			cpuEasy();
+	if (!gameFinished) {
+		// Get the cell content and split it
+		var content = tableCell.innerHTML.split(",");
+		// Get the row and column numbers
+		var row = content[0]
+		var col = content[1]
+		// If the position is still valid
+		if (positions[row][col] == 0) {
+			// Set the image
+			tableCell.style.backgroundImage = imgPlayer1;
+			// Register the selected position
+			positions[row][col] = nPlayer1
+			// Get the number of the winner
+			var winnerNumber = getTheWinner();
+			// If there is a winner show the winner message
+			if( winnerNumber != -1 ) {
+				showWinner(winnerNumber);
+			} else {
+				robotEasy();
+			}
 		}
 	}
 }
@@ -53,50 +59,52 @@ function randomInt(min, max) {
 	return Math.floor((Math.random() * max) + min);
 }
 
-// CPU easy
-function cpuEasy() {
-	var row = -1;
-	var col = -1;
-	var found = false;
+// Robot easy
+function robotEasy() {
+	if (!gameFinished) {
+		var row = -1;
+		var col = -1;
+		var found = false;
 
-	// Try a random position
-	for (var index = 0; index < 5; index++) {
-		var r = randomInt(0,2);
-		var c = randomInt(0,2);
-		if (positions[r][c] == 0) {
-			row = r;
-			col = c;
-			found = true;
-			break;
-		}
-	}
-
-	// If could not find a valid random position get the first valid position from the table
-	if (!found) {
-		for (var r = 0; r < positions.length; r++) {
-			for (var c = 0; c < positions[r].length; c++) {
-				if (positions[r][c] == 0) {
-					row = r;
-					col = c;
-					found = true;
-					break;
-				}
-			}
-			if (found == true) {
+		// Try a random position
+		for (var index = 0; index < 5; index++) {
+			var r = randomInt(0,2);
+			var c = randomInt(0,2);
+			if (positions[r][c] == 0) {
+				row = r;
+				col = c;
+				found = true;
 				break;
 			}
 		}
-	}
 
-	// If the position is valid
-	if (row < 3 && row >= 0 && col < 3 && col >= 0 ) {
-		// Set the image
-		table.rows[row].cells[col].style.backgroundImage = imgPlayer2;
-		// Register the selected position
-		positions[row][col] = nPlayer2;
-		var winnerNumber = getTheWinner();
-		if( winnerNumber != -1 ) {
-			showWinner(winnerNumber);
+		// If could not find a valid random position get the first valid position from the table
+		if (!found) {
+			for (var r = 0; r < positions.length; r++) {
+				for (var c = 0; c < positions[r].length; c++) {
+					if (positions[r][c] == 0) {
+						row = r;
+						col = c;
+						found = true;
+						break;
+					}
+				}
+				if (found == true) {
+					break;
+				}
+			}
+		}
+
+		// If the position is valid
+		if (found == true) {
+			// Set the image
+			board.rows[row].cells[col].style.backgroundImage = imgPlayer2;
+			// Register the selected position
+			positions[row][col] = nPlayer2;
+			var winnerNumber = getTheWinner();
+			if( winnerNumber != -1 ) {
+				showWinner(winnerNumber);
+			}
 		}
 	}
 }
@@ -142,14 +150,16 @@ function getTheWinner() {
 
 // Show the winner message
 function showWinner(winnerNumber) {
+	gameFinished = true;
 	if (winnerNumber == nPlayer1) {
-		alert("Player 1 WIN!");
+		winnerMessageBox.innerHTML = "YOU WIN!";
 	} else if (winnerNumber == nPlayer2) {
-		alert("Player 2 WIN!");
+		winnerMessageBox.innerHTML = "ROBOT WIN!";
 	} else if (winnerNumber == 0) {
-		alert("Draw!");
+		winnerMessageBox.innerHTML = "DRAW!";
 	}
-	reset();
+	winnerMessageBox.style.display = 'block';
+	//reset();
 }
 
 // Reset the game
@@ -161,9 +171,15 @@ function reset() {
 	];
 
 	// Remove all images
-	for (var row = 0; row < table.rows.length; row++) {
-		for (var col = 0; col < table.rows[row].cells.length; col++) {
-			table.rows[row].cells[col].style.backgroundImage = '';
+	for (var row = 0; row < board.rows.length; row++) {
+		for (var col = 0; col < board.rows[row].cells.length; col++) {
+			board.rows[row].cells[col].style.backgroundImage = '';
 		}
 	}
+
+	// Remove the winner message box
+	winnerMessageBox.innerHTML = "";
+	winnerMessageBox.style.display = 'none';
+
+	gameFinished = false;
 }
