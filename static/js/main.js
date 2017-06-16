@@ -6,11 +6,18 @@ var positions = [
 	[0, 0, 0]
 ];
 
+// Note: As we are providing the option to only play
+// versus robot the player2 will be always the robot
+
 var gameFinished = false;
 
 // The number to be used for the players
 const nPlayer1 = 1;
 const nPlayer2 = 2;
+
+// Store the score of each player
+var scorePlayer1 = 0;
+var scorePlayer2 = 0;
 
 var startingPlayer = nPlayer1;
 
@@ -19,6 +26,7 @@ const imgPlayer1 = 'url("static/img/p1.png")';
 const imgPlayer2 = 'url("static/img/p2.png")';
 
 var board = document.getElementById("board");
+var scoreboard = document.getElementById("scoreboard");
 var winnerMessageBox = document.getElementById("winnerMessageBox");
 var playAgainButton = document.getElementById("playAgainButton");
 
@@ -176,8 +184,12 @@ function applyOpacity(row1, col1, row2, col2, row3, col3) {
 function showWinner(winnerNumber) {
 	gameFinished = true;
 	if (winnerNumber == nPlayer1) {
+		scorePlayer1 += 1;
+		scoreboard.rows[1].cells[0].innerHTML = scorePlayer1;
 		winnerMessageBox.innerHTML = "YOU WIN!";
 	} else if (winnerNumber == nPlayer2) {
+		scorePlayer2 += 1;
+		scoreboard.rows[1].cells[1].innerHTML = scorePlayer2;
 		winnerMessageBox.innerHTML = "ROBOT WIN!";
 	} else if (winnerNumber == 0) {
 		winnerMessageBox.innerHTML = "DRAW!";

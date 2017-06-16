@@ -1,25 +1,23 @@
 
+/* Set a default font family for all elements */
 body {
 	background-color: #eee;
 	font-family: 'Patrick Hand SC', cursive;
-}
-
-th, td {
-	background-repeat: no-repeat;
-	height: 100px; 
-	width: 100px;
-	text-align: center;
-	cursor: pointer;
-	font-size: 0;
-	border: 1px solid #aab9ff;
-	border-radius: 5px;
 }
 
 h1 {
 	color: blue;
 }
 
-.board {
+table.scoreboard tr td {
+	text-align: center;
+	min-width: 100px;
+	color: blue;
+	font-weight: bold;
+}
+
+/* Define gradient for the board (table) */
+table.board {
 	background: blue; /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(blue, purple); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(blue, purple); /* For Opera 11.1 to 12.0 */
@@ -28,6 +26,19 @@ h1 {
 	border-radius: 5px;
 }
 
+/* The width and height are set based on the size of icons */
+table.board tr td {
+	background-repeat: no-repeat;
+	text-align: center;
+	height: 100px; 
+	width: 100px;
+	cursor: pointer;
+	font-size: 0;
+	border: 1px solid #aab9ff;
+	border-radius: 5px;
+}
+
+/* This class is used by the winnerMessageBox and the playAgainButton */
 .hiddenMessages {
 	background: blue; /* For browsers that do not support gradients */
 	background: -webkit-linear-gradient(blue, purple); /* For Safari 5.1 to 6.0 */
@@ -40,20 +51,22 @@ h1 {
 	margin: 10px;
 	padding: 10px;
 	display: none;
-}
-
-#winnerMessageBox {
-	width: 300px;
 	font-size: 20px;
 }
 
+/* Small changes specific for the winnerMessageBox */
+#winnerMessageBox {
+	width: 300px;
+}
+
+/* Small changes specific for the playAgainButton */
 #playAgainButton {
 	cursor: pointer;
 	min-width: 300px;
 	font-family: 'Patrick Hand SC', cursive;
-	font-size: 20px;
 }
 
+/* The height should be set based on the content */
 footer {
 	position: fixed;
 	bottom: 0;
@@ -62,10 +75,12 @@ footer {
 	padding-top: 10px;
 }
 
+/* Change the heart icon color to red */
 #heart-icon {
 	color: red;
 }
 
+/* Remove the links underline and set its color to blue */
 a {
 	text-decoration: none;
 	color: blue;

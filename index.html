@@ -9,6 +9,19 @@
 	<body>
 		<div align="center">
 			<h1>TIC TAC TOE</h1>
+
+			<table class="scoreboard" id="scoreboard" border=0>
+				<tr>
+					<td><i class="fa fa-user" aria-hidden="true"></i> Player 1</td>
+					<td><i class="fa fa-desktop" aria-hidden="true"></i> Robot</td>
+				</tr>
+				
+				<tr>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+			</table>
+
 			<table class="board" id="board" border=1>
 				<tr>
 					<td>0,0</td>
@@ -28,6 +41,7 @@
 					<td>2,2</td>
 				</tr>
 			</table>
+
 			<div class="hiddenMessages" id="winnerMessageBox"></div>
 			<button class="hiddenMessages" id="playAgainButton" onclick="reset()">PLAY AGAIN</button>
 		
