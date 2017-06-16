@@ -1,2 +1,3 @@
-# tic-tac-toe
-TIC TAC TOE
+# TIC TAC TOE
+
+![Game](game.png)
