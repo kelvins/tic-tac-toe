@@ -1,16 +1,20 @@
 
+// Multidimensional array used to store the positions already selected
 var positions = [
 	[0, 0, 0],
 	[0, 0, 0],
 	[0, 0, 0]
 ];
 
+// The number to be used for the players
 const nPlayer1 = 1;
 const nPlayer2 = 2;
 
+// The path for the image for the players
 const imgPlayer1 = 'url("static/img/p1.png")';
 const imgPlayer2 = 'url("static/img/p2.png")';
 
+// Register the onClick function for each cell in the table (board)
 var table = document.getElementById("board");
 for (var row = 0; row < table.rows.length; row++) {
 	for (var col = 0; col < table.rows[row].cells.length; col++) {
@@ -20,14 +24,22 @@ for (var row = 0; row < table.rows.length; row++) {
 	}
 }
 
+// Function called when the user clicks on a cell in the table
 function onCellClicked(tableCell) {
+	// Get the cell content and split it
 	var content = tableCell.innerHTML.split(",");
+	// Get the row and column numbers
 	var row = content[0]
 	var col = content[1]
+	// If the position is still valid
 	if (positions[row][col] == 0) {
+		// Set the image
 		tableCell.style.backgroundImage = imgPlayer1;
+		// Register the selected position
 		positions[row][col] = nPlayer1
+		// Get the number of the winner
 		var winnerNumber = getTheWinner();
+		// If there is a winner show the winner message
 		if( winnerNumber != -1 ) {
 			showWinner(winnerNumber);
 		} else {
@@ -36,15 +48,18 @@ function onCellClicked(tableCell) {
 	}
 }
 
+// Generate a random integer
 function randomInt(min, max) {
 	return Math.floor((Math.random() * max) + min);
 }
 
+// CPU easy
 function cpuEasy() {
 	var row = -1;
 	var col = -1;
 	var found = false;
 
+	// Try a random position
 	for (var index = 0; index < 5; index++) {
 		var r = randomInt(0,2);
 		var c = randomInt(0,2);
@@ -56,6 +71,7 @@ function cpuEasy() {
 		}
 	}
 
+	// If could not find a valid random position get the first valid position from the table
 	if (!found) {
 		for (var r = 0; r < positions.length; r++) {
 			for (var c = 0; c < positions[r].length; c++) {
@@ -72,8 +88,11 @@ function cpuEasy() {
 		}
 	}
 
+	// If the position is valid
 	if (row < 3 && row >= 0 && col < 3 && col >= 0 ) {
+		// Set the image
 		table.rows[row].cells[col].style.backgroundImage = imgPlayer2;
+		// Register the selected position
 		positions[row][col] = nPlayer2;
 		var winnerNumber = getTheWinner();
 		if( winnerNumber != -1 ) {
@@ -82,6 +101,8 @@ function cpuEasy() {
 	}
 }
 
+// Check all valid positions combinations and return the number of the winner
+// Return 0 if there was a draw. Return -1 if the game has not finished.
 function getTheWinner() {
 	if (positions[0][0] != 0 && positions[0][0] == positions[0][1] && positions[0][1] == positions[0][2]) { // First row
 		return positions[0][0];
@@ -119,17 +140,19 @@ function getTheWinner() {
 	return 0;
 }
 
+// Show the winner message
 function showWinner(winnerNumber) {
 	if (winnerNumber == nPlayer1) {
 		alert("Player 1 WIN!");
 	} else if (winnerNumber == nPlayer2) {
 		alert("Player 2 WIN!");
 	} else if (winnerNumber == 0) {
-		alert("TIE!");
+		alert("Draw!");
 	}
 	reset();
 }
 
+// Reset the game
 function reset() {
 	positions = [
 		[0, 0, 0],
@@ -137,6 +160,7 @@ function reset() {
 		[0, 0, 0]
 	];
 
+	// Remove all images
 	for (var row = 0; row < table.rows.length; row++) {
 		for (var col = 0; col < table.rows[row].cells.length; col++) {
 			table.rows[row].cells[col].style.backgroundImage = '';
