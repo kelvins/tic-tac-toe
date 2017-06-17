@@ -120,41 +120,75 @@ function robotEasy() {
 	}
 }
 
+// Check if the row passed by parameter is completely filled with valid values (!= 0)
+function isRowFilled(row) {
+	if (positions[row][0] != 0 && 
+		positions[row][0] == positions[row][1] && 
+		positions[row][1] == positions[row][2]) {
+		return true;
+	}
+	return false;
+}
+
+// Check if the column passed by parameter is completely filled with valid values (!= 0)
+function isColumnFilled(col) {
+	if (positions[0][col] != 0 &&
+		positions[0][col] == positions[1][col] &&
+		positions[1][col] == positions[2][col]) {
+		return true;
+	}
+	return false;
+}
+
+// Check if the diagonal (1 - main, 2 - secondary) passed by parameter is completely filled with valid values (!= 0)
+function isDiagonalFilled(diag) {
+	if (diag == 1) {
+		if (positions[0][0] != 0 && positions[0][0] == positions[1][1] && positions[1][1] == positions[2][2]) { // Main diagonal
+			return true;
+		}
+	} else if (diag == 2) {
+		if (positions[2][0] != 0 && positions[2][0] == positions[1][1] && positions[1][1] == positions[0][2]) { // Secondary diagonal
+			return true;
+		}
+	}
+	return false;
+}
+
 // Check all valid positions combinations and return the number of the winner
 // Return 0 if there was a draw. Return -1 if the game has not finished.
 function getTheWinner() {
-	if (positions[0][0] != 0 && positions[0][0] == positions[0][1] && positions[0][1] == positions[0][2]) { // First row
+	if (isRowFilled(0)) { // First row
 		applyOpacity(0,0,0,1,0,2);
 		return positions[0][0];
 	} 
-	if (positions[0][0] != 0 && positions[0][0] == positions[1][0] && positions[1][0] == positions[2][0]) { // First column
-		applyOpacity(0,0,1,0,2,0);
-		return positions[0][0];
-	} 
-	if (positions[0][0] != 0 && positions[0][0] == positions[1][1] && positions[1][1] == positions[2][2]) { // Main diagonal
-		applyOpacity(0,0,1,1,2,2);
-		return positions[0][0];
-	} 
-	if (positions[2][0] != 0 && positions[2][0] == positions[2][1] && positions[2][1] == positions[2][2]) { // Last row
-		applyOpacity(2,0,2,1,2,2);
-		return positions[2][0];
-	} 
-	if (positions[0][2] != 0 && positions[0][2] == positions[1][2] && positions[1][2] == positions[2][2]) { // Last column
-		applyOpacity(0,2,1,2,2,2);
-		return positions[0][2];
-	} 
-	if (positions[1][0] != 0 && positions[1][0] == positions[1][1] && positions[1][1] == positions[1][2]) { // Middle row
+	if (isRowFilled(1)) { // Middle row
 		applyOpacity(1,0,1,1,1,2);
 		return positions[1][0];
 	} 
-	if (positions[2][0] != 0 && positions[2][0] == positions[1][1] && positions[1][1] == positions[0][2]) { // Second diagonal
-		applyOpacity(2,0,1,1,0,2);
+	if (isRowFilled(2)) { // Last row
+		applyOpacity(2,0,2,1,2,2);
 		return positions[2][0];
 	} 
-	if (positions[0][1] != 0 && positions[0][1] == positions[1][1] && positions[1][1] == positions[2][1]) { // Middle column
+	if (isColumnFilled(0)) { // First column
+		applyOpacity(0,0,1,0,2,0);
+		return positions[0][0];
+	} 
+	if (isColumnFilled(1)) { // Middle column
 		applyOpacity(0,1,1,1,2,1);
 		return positions[0][1];
 	}
+	if (isColumnFilled(2)) { // Last column
+		applyOpacity(0,2,1,2,2,2);
+		return positions[0][2];
+	} 
+	if (isDiagonalFilled(1)) { // Main diagonal
+		applyOpacity(0,0,1,1,2,2);
+		return positions[0][0];
+	} 
+	if (isDiagonalFilled(2)) { // Secondary diagonal
+		applyOpacity(2,0,1,1,0,2);
+		return positions[2][0];
+	} 
 
 	for (var row = 0; row < positions.length; row++) {
 		for (var col = 0; col < positions[row].length; col++) {
