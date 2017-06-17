@@ -162,41 +162,53 @@ function robotNormal() {
 	var found = false;
 	// Check all rows
 	for (var r = 0; r < positions.length; r++) {
-		if (positions[r][0] != 0 && positions[r][0] == positions[r][1]) {
+		if (positions[r][0] != 0 &&
+			positions[r][2] == 0 &&
+			positions[r][0] == positions[r][1]) {
 			row = r;
 			col = 2;
 			found = true;
 			break;
 		}
-		if (positions[r][1] != 0 && positions[r][1] == positions[r][2]) {
+		if (positions[r][1] != 0 &&
+			positions[r][0] == 0 &&
+			positions[r][1] == positions[r][2]) {
 			row = r;
 			col = 0;
 			found = true;
 			break;
 		}
-		if (positions[r][0] != 0 && positions[r][0] == positions[r][2]) {
+		if (positions[r][0] != 0 &&
+			positions[r][1] == 0 &&
+			positions[r][0] == positions[r][2]) {
 			row = r;
 			col = 1;
 			found = true;
 			break;
 		}
-	}	
+	}
 	// Check all columns
 	if (!found) {
-		for (var c = 0; c < positions[r].length; c++) {
-			if (positions[0][c] != 0 && positions[0][c] == positions[1][c]) {
+		for (var c = 0; c < positions[0].length; c++) {
+			if (positions[0][c] != 0 &&
+				positions[2][c] == 0 &&
+				positions[0][c] == positions[1][c]) {
 				row = 2;
 				col = c;
 				found = true;
 				break;
 			}
-			if (positions[1][c] != 0 && positions[1][c] == positions[2][c]) {
+			if (positions[1][c] != 0 && 
+				positions[0][c] == 0 &&
+				positions[1][c] == positions[2][c]) {
 				row = 0;
 				col = c;
 				found = true;
 				break;
 			}
-			if (positions[0][c] != 0 && positions[0][c] == positions[2][c]) {
+			if (positions[0][c] != 0 &&
+				positions[1][c] == 0 &&
+				positions[0][c] == positions[2][c]) {
 				row = 1;
 				col = c;
 				found = true;
@@ -205,39 +217,48 @@ function robotNormal() {
 		}
 	}
 	if (!found) {
-		if (positions[0][0] != 0 && positions[0][0] == positions[1][1]) {
+		if (positions[0][0] != 0 &&
+			positions[2][2] == 0 &&
+			positions[0][0] == positions[1][1]) {
 			row = 2;
 			col = 2;
-			found == true;
-		} else if (positions[0][0] != 0 && positions[0][0] == positions[2][2]) {
+			found = true;
+		} else if (positions[0][0] != 0 &&
+				   positions[1][1] == 0 &&
+				   positions[0][0] == positions[2][2]) {
 			row = 1;
 			col = 1;
-			found == true;
-		} else if (positions[1][1] != 0 && positions[1][1] == positions[2][2]) {
+			found = true;
+		} else if (positions[1][1] != 0 &&
+				   positions[0][0] == 0 &&
+				   positions[1][1] == positions[2][2]) {
 			row = 0;
 			col = 0;
-			found == true;
-		} else if (positions[0][2] != 0 && positions[0][2] == positions[1][1]) {
+			found = true;
+		} else if (positions[0][2] != 0 &&
+				   positions[2][0] == 0 &&
+				   positions[0][2] == positions[1][1]) {
 			row = 2;
 			col = 0;
-			found == true;
-		} else if (positions[0][2] != 0 && positions[0][2] == positions[2][0]) {
+			found = true;
+		} else if (positions[0][2] != 0 &&
+				   positions[1][1] == 0 &&
+				   positions[0][2] == positions[2][0]) {
 			row = 1;
 			col = 1;
-			found == true;
-		} else if (positions[1][1] != 0 && positions[1][1] == positions[2][0]) {
+			found = true;
+		} else if (positions[1][1] != 0 &&
+				   positions[0][2] == 0 &&
+				   positions[1][1] == positions[2][0]) {
 			row = 0;
 			col = 2;
-			found == true;
+			found = true;
 		}
 	}
 	if (!found) {
 		robotEasy();
-	} else {
-		// If the position is valid
-		if (found) {
-			makeRobotPlay(row, col);
-		}
+	} else if (found) {
+		makeRobotPlay(row, col);
 	}
 }
 
