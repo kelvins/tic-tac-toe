@@ -59,7 +59,8 @@ function onCellClicked(tableCell) {
 			if( winnerNumber != -1 ) {
 				showWinner(winnerNumber);
 			} else {
-				robotEasy();
+				//robotEasy();
+				robotNormal();
 			}
 		}
 	}
@@ -107,7 +108,7 @@ function robotEasy() {
 		}
 
 		// If the position is valid
-		if (found == true) {
+		if (found) {
 			// Set the image
 			board.rows[row].cells[col].style.backgroundImage = imgPlayer2;
 			// Register the selected position
@@ -118,6 +119,106 @@ function robotEasy() {
 			}
 		}
 	}
+}
+
+// Robot normal
+function robotNormal() {
+	if (!gameFinished) {
+		var row = -1;
+		var col = -1;
+		var found = false;
+		// Check all rows
+		for (var r = 0; r < positions.length; r++) {
+			if (positions[r][0] != 0 && positions[r][0] == positions[r][1]) {
+				row = r;
+				col = 2;
+				found = true;
+				break;
+			}
+			if (positions[r][1] != 0 && positions[r][1] == positions[r][2]) {
+				row = r;
+				col = 0;
+				found = true;
+				break;
+			}
+			if (positions[r][0] != 0 && positions[r][0] == positions[r][2]) {
+				row = r;
+				col = 1;
+				found = true;
+				break;
+			}
+		}	
+		// Check all columns
+		if (!found) {
+			for (var c = 0; c < positions[r].length; c++) {
+				if (positions[0][c] != 0 && positions[0][c] == positions[1][c]) {
+					row = 2;
+					col = c;
+					found = true;
+					break;
+				}
+				if (positions[1][c] != 0 && positions[1][c] == positions[2][c]) {
+					row = 0;
+					col = c;
+					found = true;
+					break;
+				}
+				if (positions[0][c] != 0 && positions[0][c] == positions[2][c]) {
+					row = 1;
+					col = c;
+					found = true;
+					break;
+				}
+			}
+		}
+		if (!found) {
+			if (positions[0][0] != 0 && positions[0][0] == positions[1][1]) {
+				row = 2;
+				col = 2;
+				found == true;
+			} else if (positions[0][0] != 0 && positions[0][0] == positions[2][2]) {
+				row = 1;
+				col = 1;
+				found == true;
+			} else if (positions[1][1] != 0 && positions[1][1] == positions[2][2]) {
+				row = 0;
+				col = 0;
+				found == true;
+			} else if (positions[0][2] != 0 && positions[0][2] == positions[1][1]) {
+				row = 2;
+				col = 0;
+				found == true;
+			} else if (positions[0][2] != 0 && positions[0][2] == positions[2][0]) {
+				row = 1;
+				col = 1;
+				found == true;
+			} else if (positions[1][1] != 0 && positions[1][1] == positions[2][0]) {
+				row = 0;
+				col = 2;
+				found == true;
+			}
+		}
+		if (!found) {
+			robotEasy();
+		} else {
+			// If the position is valid
+			if (found) {
+				// Set the image
+				board.rows[row].cells[col].style.backgroundImage = imgPlayer2;
+				// Register the selected position
+				positions[row][col] = nPlayer2;
+				var winnerNumber = getTheWinner();
+				if( winnerNumber != -1 ) {
+					showWinner(winnerNumber);
+				}
+			}
+		}
+	}
+}
+
+// Robot hard
+function robotHard() {
+
 }
 
 // Check if the row passed by parameter is completely filled with valid values (!= 0)
@@ -140,14 +241,18 @@ function isColumnFilled(col) {
 	return false;
 }
 
-// Check if the diagonal (1 - main, 2 - secondary) passed by parameter is completely filled with valid values (!= 0)
+// Check if the diagonal (0 - main, 2 - secondary) passed by parameter is completely filled with valid values (!= 0)
 function isDiagonalFilled(diag) {
 	if (diag == 1) {
-		if (positions[0][0] != 0 && positions[0][0] == positions[1][1] && positions[1][1] == positions[2][2]) { // Main diagonal
+		if (positions[0][0] != 0 &&
+			positions[0][0] == positions[1][1] &&
+			positions[1][1] == positions[2][2]) { // Main diagonal
 			return true;
 		}
 	} else if (diag == 2) {
-		if (positions[2][0] != 0 && positions[2][0] == positions[1][1] && positions[1][1] == positions[0][2]) { // Secondary diagonal
+		if (positions[2][0] != 0 &&
+			positions[2][0] == positions[1][1] &&
+			positions[1][1] == positions[0][2]) { // Secondary diagonal
 			return true;
 		}
 	}
@@ -257,7 +362,8 @@ function reset() {
 
 	if (startingPlayer == nPlayer1) {
 		startingPlayer = nPlayer2;
-		robotEasy();
+		//robotEasy();
+		robotNormal();
 	} else {
 		startingPlayer = nPlayer1;
 	}
