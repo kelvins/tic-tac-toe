@@ -32,7 +32,11 @@ const imgPlayer2 = 'url("static/img/p2.png")';
 var board = document.getElementById("board");
 var scoreboard = document.getElementById("scoreboard");
 var winnerMessageBox = document.getElementById("winnerMessageBox");
-var playAgainButton = document.getElementById("playAgainButton");
+var playAgainButton  = document.getElementById("playAgainButton");
+var selectDifficulty = document.getElementById("difficulty-select");
+
+// Get the default selected difficulty
+var difficulty = selectDifficulty.options[selectDifficulty.selectedIndex].value;
 
 // Get the number of rows and columns from the board (table)
 const rows = board.rows.length;
@@ -51,6 +55,10 @@ for (var row = 0; row < rows; row++) {
 function onCellClicked(tableCell) {
 	if (gameFinished) {
 		return;
+	}
+	if(selectDifficulty.disabled == false ) {
+		difficulty = selectDifficulty.options[selectDifficulty.selectedIndex].value;
+		selectDifficulty.disabled = true;
 	}
 	// Get the cell content and split it
 	var content = tableCell.innerHTML.split(",");
@@ -85,8 +93,13 @@ function randomInt(min, max) {
 
 // Check the selected difficulty level and calls the correct function
 function robotTurn() {
-	//robotEasy();
-	robotNormal();
+	if (difficulty == "easy") {
+		robotEasy();
+	} else if (difficulty == "hard") {
+		robotHard();
+	} else {
+		robotNormal();
+	}
 }
 
 // Register the row and column selected by the robot
@@ -264,7 +277,7 @@ function robotNormal() {
 
 // Robot hard
 function robotHard() {
-
+	robotNormal();
 }
 
 // ######################################################
@@ -415,6 +428,7 @@ function showWinner(winnerNumber) {
 	// Show the winner message box and the play again button
 	winnerMessageBox.style.display = 'block';
 	playAgainButton.style.display  = 'block';
+	selectDifficulty.disabled = false;
 }
 
 // Reset the game
@@ -442,6 +456,10 @@ function reset() {
 
 	// Set the gameFinished flag to false (it is a new game)
 	gameFinished = false;
+
+	// Get the selected difficulty
+	difficulty = selectDifficulty.options[selectDifficulty.selectedIndex].value;
+	selectDifficulty.disabled = true;
 
 	// Set the correct startingPlayer based on the last match 
 	if (startingPlayer == nPlayer1) {
